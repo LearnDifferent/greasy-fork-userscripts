@@ -1,8 +1,8 @@
 // ==UserScript==
 // @name         Bangumi 首页改造计划
 // @namespace    https://github.com/LearnDifferent
-// @version      0.1
-// @description  修改 Bangumi 的首页样式
+// @version      0.2
+// @description  修改 Bangumi 首页
 // @author       Zhou
 // @match        *://bgm.tv/
 // @match        *://bangumi.tv/
@@ -75,4 +75,19 @@
         newTitle = newTitle.replace('</small>', '');
         watchBtn.setAttribute('data-original-title', newTitle);
     }
+
+    // 将条目倒叙（初始的条目顺序是将最近看完的放在前面，而每周看完动画后，我想标记的应该是最久没看的才对）
+    let subjectsParent = document.querySelector("div[class='infoWrapper_tv hidden clearit']");
+    reverseChildren(subjectsParent);
+
+    /**
+     * 将 parent 的子节点倒序
+     * @param parent 父元素
+     */
+    function reverseChildren(parent) {
+        for (let i = 1; i < parent.childNodes.length; i++) {
+            parent.insertBefore(parent.childNodes[i], parent.firstChild);
+        }
+    }
+
 })();
