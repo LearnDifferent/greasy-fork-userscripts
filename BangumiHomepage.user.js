@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Bangumi 首页改造计划
 // @namespace    https://github.com/LearnDifferent
-// @version      0.2
+// @version      0.3
 // @description  修改 Bangumi 首页
 // @author       Zhou
 // @match        *://bgm.tv/
@@ -52,19 +52,19 @@
         ava.setAttribute('style', 'width: 55px; height: 55px; ' + originStyle);
     }
 
-    // 将每个条目标题后面的进度和 edit 按钮放大
+    // 将每个条目标题后面的进度放大
     const tinyHeaders = document.getElementsByClassName('tinyHeader');
     for (let tHeader of tinyHeaders) {
         // 替换 small 标签为 medium 标签
-        let smallElements = tHeader.getElementsByClassName('progress_percent_text');
-        for (let smallElement of smallElements) {
-            let medium = document.createElement('medium');
-            medium.innerHTML = smallElement.innerHTML;
-            medium.className = smallElement.className;
-            medium.id = smallElement.id;
-            smallElement.parentNode.replaceChild(medium, smallElement);
-            medium.setAttribute('style', 'color: #2774FF');
-        }
+        // 获取进度的元素（index 为 0 是进度的元素，index 为 1 是 edit 按钮的元素）
+        let progressPercentText = tHeader.getElementsByClassName('progress_percent_text')[0];
+
+        let medium = document.createElement('medium');
+        medium.innerHTML = progressPercentText.innerHTML;
+        medium.className = progressPercentText.className;
+        medium.id = progressPercentText.id;
+        progressPercentText.parentNode.replaceChild(medium, progressPercentText);
+        medium.setAttribute('style', 'color: #2774FF');
     }
 
     // 将在看按钮的文字放大
